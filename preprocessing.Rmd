@@ -1,0 +1,30 @@
+
+
+```{r}
+#without time
+chicago_data$Date <- format(as.Date(chicago_data$Date, format = "%m/%d/%Y"),"%m/%d/%Y")
+```
+
+```{r}
+#cleaning
+losAngeles_data <- subset(losAngeles_data, select = -c(Crime.Code, Weapon.Used.Code, Crime.Code.1,Crime.Code.2,Crime.Code.3,Crime.Code.4,MO.Codes) )
+```
+
+```{r}
+#cleaning
+chicago_data <- subset(chicago_data, select = -c(Case.Number, IUCR, Updated.On,Beat,FBI.Code) )
+```
+
+```{r}
+#Latitture and Longitude
+install.packages("tidyr")
+library(tidyr)
+losAngeles_data$location <- losAngeles_data$Location
+losAngeles_data$Location <-  gsub("\\(","",losAngeles_data$Location)
+losAngeles_data$Location <-  gsub("\\)","",losAngeles_data$Location)
+losAngeles_data <- losAngeles_data %>%
+  separate(Location, c('Latitude', 'Longitude'), sep=",")
+
+colnames(losAngeles_data)[colnames(losAngeles_data)=="location"] <- "Location"
+```
+
